@@ -42,7 +42,7 @@
 class SetMatrixZeroes73 {
 
     // 空间复杂度O(m+n) 自己写的
-    public void setZeroes(int[][] matrix) {
+    public void setZeroes1(int[][] matrix) {
         int row = matrix.length;
         int col = matrix[0].length;
         boolean[] rowArr = new boolean[row];
@@ -62,6 +62,45 @@ class SetMatrixZeroes73 {
                 matrix[i][j] = 0;
             }
         }
+    }
+
+    // 空间复杂度O(1) 参考题解
+    public void setZeroes(int[][] matrix) {
+        boolean firstRow = false;
+        boolean firstCol = false;
+        int row = matrix.length;
+        int col = matrix[0].length;
+        for (int i = 0; i < col; i++) // 首行是否有0
+            if (matrix[0][i] == 0) {
+                firstRow = true;
+                break;
+            }
+        for(int i=0; i<row; i++)    // 首列是否有0
+            if(matrix[i][0] == 0) {
+                firstCol = true;
+                break;
+            }
+        for(int i=1; i<row; i++)    // 去掉首行首列的矩阵中元素若为0 则将对应的行首列首置0
+            for(int j=1; j<col; j++) {
+                if(matrix[i][j]==0) {
+                    matrix[0][j] = 0;
+                    matrix[i][0] = 0;
+                }
+            }
+        for(int i=1; i<col; i++)    // 将首行中0元素所在列置0
+            if(matrix[0][i]==0)
+                for(int j=1; j<row; j++)
+                    matrix[j][i] = 0;
+        for(int i=1; i<row; i++)    // 将首列中0元素所在行置0
+            if(matrix[i][0]==0)
+                for(int j=1; j<col; j++)
+                    matrix[i][j] = 0;
+        if(firstRow)    // 原矩阵首行若有0 则将首行置0
+            for(int i=0; i<col; i++)
+                matrix[0][i] = 0;
+        if(firstCol)    // 原矩阵首列若有0 则将首列置0
+            for(int i=0; i<row; i++)
+                matrix[i][0] = 0;
     }
 
 
