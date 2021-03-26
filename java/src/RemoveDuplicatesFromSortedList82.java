@@ -33,16 +33,12 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 
-/**
- * Definition for singly-linked list.
- */
-
 /*
 * 链表题Tip（摘自评论区）：
 * 1、舍得用变量，千万别想着节省变量，否则容易被逻辑绕晕
 * 2、head 有可能需要改动时，先增加一个 假head，返回的时候直接取 假head.next，这样就不需要为修改 head 增加一大堆逻辑了。
 * */
-public class RemoveDuplicatesFromSortedListIi82 {
+public class RemoveDuplicatesFromSortedList82 {
     public ListNode deleteDuplicates(ListNode head) {
         if (head == null) return null;
         ListNode preHead = new ListNode(0, head);
@@ -58,20 +54,6 @@ public class RemoveDuplicatesFromSortedListIi82 {
             }
         }
         return preHead.next;
-    }
-
-    class ListNode {
-        int val;
-        ListNode next;
-        ListNode() {
-        }
-        ListNode(int val) {
-            this.val = val;
-        }
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
