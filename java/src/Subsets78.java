@@ -51,7 +51,7 @@ class Subsets78 {
         }
         cur.add(nums[index]);
         dfs(nums,index+1);
-        cur.remove(cur.size()-1);
+        cur.remove(cur.size()-1);   // dfs先添加后移除 从index-1到0遍历时 此时cur的末尾元素即为nums[index]
         dfs(nums,index+1);
     }
 
