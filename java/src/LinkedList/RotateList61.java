@@ -1,4 +1,4 @@
-//给你一个链表的头节点 head ，旋转链表，将链表每个节点向右移动 k 个位置。 
+package LinkedList;//给你一个链表的头节点 head ，旋转链表，将链表每个节点向右移动 k 个位置。
 //
 // 
 //
@@ -59,7 +59,7 @@ class RotateList61 {
     // 哈希表 利用索引取节点 减少遍历次数 遇特殊情况出bug
     public ListNode rotateRightHash(ListNode head, int k) {
         if(head==null) return null;
-        Map<Integer,ListNode> map = new HashMap<>();
+        Map<Integer, ListNode> map = new HashMap<>();
         int index = 0;
         ListNode cur = head;
         while(cur!=null) {
