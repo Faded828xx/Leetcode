@@ -46,6 +46,8 @@ package String;
 // Related Topics 双指针 字符串 
 // 👍 820 👎 0
 
+import java.util.Arrays;
+
 //leetcode submit region begin(Prohibit modification and deletion)
 class ImplementStrstr28 {
     // KMP字符串匹配 利用前缀数组 当不匹配时 忽略已匹配字符中的相同前后缀
@@ -72,6 +74,32 @@ class ImplementStrstr28 {
                 return i - j + 1;
         }
         return -1;
+    }
+
+    // Sunday算法 记匹配失败字符后一位元素为cur 在needle找到cur最后出现的索引 将其与cur对齐并匹配 而匹配字符串的首索引的跳转需要偏移表来实现
+    // 该偏移表同KMP算法中的前缀数组一样 仅与needle有关
+    public static int strStr2(String haystack, String needle) {
+        int lenS = haystack.length();
+        int lenN = needle.length();
+        if(lenN==0) return 0;
+        int[] offset = new int[26]; // 偏移表初始化为lenN+1
+        Arrays.fill(offset, lenN+1);
+        for(int i=0; i<lenN; i++) { // 只有小写字符 可以用26位数组代替哈希表
+            int j = needle.charAt(i) - 'a';
+            offset[j] = lenN - i;
+        }
+        int index = 0;
+        while(index<=lenS-lenN) {
+            if(haystack.substring(index, index+lenN).equals(needle))
+                return index;
+            if(index>=lenS-lenN) return -1;
+            index += offset[haystack.charAt(index+lenN)-'a'];   // 匹配失败 偏移
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(strStr2("hello","ll"));
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
