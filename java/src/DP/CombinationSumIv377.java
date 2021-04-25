@@ -87,7 +87,7 @@ class CombinationSumIv377 {
         dp[0] = 1;
         for(int num : nums) {
             for(int i=target; i>=num; i--) {
-                dp[i] = Math.max(dp[i], dp[i-num]); // dp[i]为不选num dp[i-num]为选num
+                dp[i] += dp[i-num];
             }
         }
         return dp[target];
