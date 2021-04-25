@@ -50,14 +50,44 @@ package DP;
 class CombinationSumIv377 {
     // 大神总结背包问题
     // https://leetcode-cn.com/problems/combination-sum-iv/solution/xi-wang-yong-yi-chong-gui-lu-gao-ding-bei-bao-wen-/
+    // dp[i][j] i遍历nums索引 j遍历target 可以优化成dp[j]
+
+    // nums中和为target的有序序列 总数 num可选多次 dp[i][j]可以理解为 j为target时,以nums[i]结尾的有序组合
+    // 该组合由nums所有数组成 因此内层为nums 才可以使得每个target的组合是由所有数组成的
     public int combinationSum4(int[] nums, int target) {
-        int len = nums.length;
         int[] dp = new int[target+1];  // dp[i]为target==i时的组合数
         dp[0] = 1;
         for(int i=1; i<=target; i++) {
             for(int num : nums) {   // 遍历nums中所有小于i的数 以其结尾
                 if(num<=i)
                     dp[i] += dp[i-num];    // 每种情况使dp[i]加上dp[i-num]
+            }
+        }
+        return dp[target];
+    }
+
+    // nums中和为target的无序序列 总数 num可选多次
+    // 由于是无序 每增加一个num需要对所有dp[j]更新 将num放在外循环
+    // 力扣 518 类似完全背包问题
+    public int change(int[] nums, int target) {
+        int[] dp = new int[target+1];
+        dp[0] = 1;
+        for(int num : nums) {
+            for(int i=num; i<=target; i++) {
+                dp[i] += dp[i-num];
+            }
+        }
+        return dp[target];
+    }
+
+    // nums中和为target的无序序列 总数 num只选一次或零次
+    // 与上类似 0-1背包问题
+    public int change1(int[] nums, int target) {
+        int[] dp = new int[target+1];
+        dp[0] = 1;
+        for(int num : nums) {
+            for(int i=target; i>=num; i--) {
+                dp[i] = Math.max(dp[i], dp[i-num]); // dp[i]为不选num dp[i-num]为选num
             }
         }
         return dp[target];
