@@ -59,6 +59,7 @@ class FindMinimumTimeToFinishAllJobs1723 {
             res = Math.min(res, curMax);
             return;
         }
+        // 无序分配 因此多个员工分配量都为0时 任选其一即可
         boolean flag = true;
         for (int i = 0; i < jobTime.length; i++) {
             if (jobTime[i] == 0) {
