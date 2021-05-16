@@ -79,8 +79,6 @@ package String;
 //        M             1000
 
 
-import java.util.Arrays;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class IntegerToRoman12 {
     public static String intToRoman(int num) {
