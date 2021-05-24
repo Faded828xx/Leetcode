@@ -57,7 +57,7 @@ package DP;
 // 👍 161 👎 0
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class UncrossedLines {
+class UncrossedLines1035 {
     // 该题可转换为最长公共子序列
     public int maxUncrossedLines(int[] nums1, int[] nums2) {
         int len1 = nums1.length;
