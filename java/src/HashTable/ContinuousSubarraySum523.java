@@ -52,7 +52,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class ContinuousSubarraySum {
+class ContinuousSubarraySum523 {
     // 暴力对每个子数组求和外加子数组两层循环使得复杂度为三次方
     // 用前缀和可以将对子数组求和变为常数级 整体复杂度为平方
     // 利用同余定理使得两个对k取模相同的前缀和即为要求的子数组界限 子数组长度至少为2则利用哈希表存储索引
