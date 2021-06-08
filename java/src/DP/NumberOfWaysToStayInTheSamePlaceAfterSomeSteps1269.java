@@ -1,4 +1,5 @@
-package DP;//有一个长度为 arrLen 的数组，开始有一个指针在索引 0 处。
+package DP;
+//有一个长度为 arrLen 的数组，开始有一个指针在索引 0 处。
 //
 // 每一步操作中，你可以将指针向左或向右移动 1 步，或者停在原地（指针不能被移动到数组范围外）。 
 //
@@ -47,7 +48,7 @@ package DP;//有一个长度为 arrLen 的数组，开始有一个指针在索�
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class NumberOfWaysToStayInTheSamePlaceAfterSomeSteps {
+class NumberOfWaysToStayInTheSamePlaceAfterSomeSteps1269 {
     // 完全自己写的 太感动了 十二点写到凌晨一点多 还超内存了 大早上改个limit就过了
     public static int numWays(int steps, int arrLen) {
         if(arrLen==1) return 1;
