@@ -50,7 +50,7 @@ package DP;
 // 👍 223 👎 0
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution1049 {
+class LastStoneWeightIi1049 {
     // 在stones中找到和不超过sum/2的最大值max, 则sum-2*max即为res
     // 关键在于如何将其化简成这个dp问题
     public int lastStoneWeightII(int[] stones) {
