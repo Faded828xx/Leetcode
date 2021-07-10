@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class contest247 {
+public class contest248 {
+    // AC
     public int[] buildArray(int[] nums) {
         int len = nums.length;
         int[] res = new int[len];
@@ -14,7 +15,7 @@ public class contest247 {
         return res;
     }
 
-
+    // AC
     public static int eliminateMaximum(int[] dist, int[] speed) {
         int len = dist.length;
         int[] time = new int[len];

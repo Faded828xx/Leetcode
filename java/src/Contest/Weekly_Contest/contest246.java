@@ -3,6 +3,7 @@ package Contest.Weekly_Contest;
 import java.util.*;
 
 public class contest246 {
+    // AC
     public String largestOddNumber1(String num) {
         int len = num.length();
         for (int i = len - 1; i >= 0; i--) {
@@ -21,16 +22,16 @@ public class contest246 {
         int[] res = new int[resLen];
         for (int i = 0; i <= len - 1; i++)
             dp[i][i] = Integer.MAX_VALUE;
-        for(int i=0; i<=len-2; i++) {
-            for(int j=0; j<=len-2-i; j++) {
-                int tmp = Math.abs(nums[j]-nums[j+i+1])==0 ? Integer.MAX_VALUE : Math.abs(nums[j]-nums[j+i+1]);
-                dp[j][j+i+1] = Math.min(tmp, dp[j][j+i]<dp[j+1][j+i+1]
-                        ? dp[j][j+i] : dp[j+1][j+i+1]);
+        for (int i = 0; i <= len - 2; i++) {
+            for (int j = 0; j <= len - 2 - i; j++) {
+                int tmp = Math.abs(nums[j] - nums[j + i + 1]) == 0 ? Integer.MAX_VALUE : Math.abs(nums[j] - nums[j + i + 1]);
+                dp[j][j + i + 1] = Math.min(tmp, dp[j][j + i] < dp[j + 1][j + i + 1]
+                        ? dp[j][j + i] : dp[j + 1][j + i + 1]);
             }
         }
 
         int index = 0;
-        for(int[] query : queries) {
+        for (int[] query : queries) {
             res[index] = dp[query[0]][query[1]] == Integer.MAX_VALUE ? -1 : dp[query[0]][query[1]];
             index++;
         }
@@ -57,7 +58,7 @@ public class contest246 {
 //                int[] cur = new int[]{j, j+i+1};
 //                if(map.containsKey(cur))
 //                    res[map.get(cur)] = dp[j+i+1] == Integer.MAX_VALUE ? -1 : dp[j+i+1];
-                if (!set.contains(j) || !set.contains(j+i+1)) continue;
+                if (!set.contains(j) || !set.contains(j + i + 1)) continue;
                 for (int k = 0; k < queries.length; k++) {
                     if (queries[k][0] == j && queries[k][1] == j + i + 1)
                         res[k] = dp[j + i + 1] == Integer.MAX_VALUE ? -1 : dp[j + i + 1];
@@ -68,8 +69,8 @@ public class contest246 {
     }
 
     public static void main(String[] args) {
-        int[] arr = new int[]{1,3,4,8};
-        int[][] queries = new int[][]{{0,1},{1,2},{2,3},{0,3}};
+        int[] arr = new int[]{1, 3, 4, 8};
+        int[][] queries = new int[][]{{0, 1}, {1, 2}, {2, 3}, {0, 3}};
         System.out.println(Arrays.toString(minDifference2(arr, queries)));
     }
 }

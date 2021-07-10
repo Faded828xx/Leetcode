@@ -18,6 +18,7 @@ public class microsoft {
         return -1;
     }
 
+    // AC
     public static int halfQuestions(int[] questions) {
         int len = questions.length;
         Map<Integer, Integer> map = new HashMap<>();
