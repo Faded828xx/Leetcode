@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class contest248 {
+public class Contest248 {
     // AC
     public int[] buildArray(int[] nums) {
         int len = nums.length;

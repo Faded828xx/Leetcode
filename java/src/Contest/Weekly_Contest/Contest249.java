@@ -3,7 +3,7 @@ package Contest.Weekly_Contest;
 import java.util.HashSet;
 import java.util.Set;
 
-public class contest249 {
+public class Contest249 {
 
     // AC
     public static int countPalindromicSubsequence(String s) {

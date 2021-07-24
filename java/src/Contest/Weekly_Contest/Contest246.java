@@ -2,7 +2,7 @@ package Contest.Weekly_Contest;
 
 import java.util.*;
 
-public class contest246 {
+public class Contest246 {
     // AC
     public String largestOddNumber1(String num) {
         int len = num.length();

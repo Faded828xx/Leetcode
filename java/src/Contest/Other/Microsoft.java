@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 // https://leetcode-cn.com/contest/lc-vscode/
-public class microsoft {
+public class Microsoft {
 
     // 卡点AC 没打上 气死了
     public static int leastMinutes(int n) {

@@ -3,7 +3,7 @@ package Contest.Weekly_Contest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class contest245 {
+public class Contest245 {
 
     // AC
     public static boolean makeEqual(String[] words) {

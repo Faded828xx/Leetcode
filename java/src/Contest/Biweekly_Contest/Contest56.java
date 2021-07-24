@@ -3,7 +3,7 @@ package Contest.Biweekly_Contest;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class contest56 {
+public class Contest56 {
 
     // AC
     public int countTriples(int n) {

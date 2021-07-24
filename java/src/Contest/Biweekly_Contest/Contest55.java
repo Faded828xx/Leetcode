@@ -1,6 +1,6 @@
 package Contest.Biweekly_Contest;
 
-public class contest55 {
+public class Contest55 {
     // AC
     public static boolean canBeIncreasing(int[] nums) {
         int len = nums.length;

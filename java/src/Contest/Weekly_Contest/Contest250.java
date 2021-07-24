@@ -3,7 +3,7 @@ package Contest.Weekly_Contest;
 import javax.print.DocFlavor;
 import java.util.*;
 
-public class contest250 {
+public class Contest250 {
 
     // AC
     public int canBeTypedWords(String text, String brokenLetters) {

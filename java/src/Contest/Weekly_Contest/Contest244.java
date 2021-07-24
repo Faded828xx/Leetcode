@@ -2,7 +2,7 @@ package Contest.Weekly_Contest;
 
 import java.util.*;
 
-public class contest244 {
+public class Contest244 {
 
     // AC
     public boolean findRotation1(int[][] mat, int[][] target) {
