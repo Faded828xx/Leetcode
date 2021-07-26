@@ -95,7 +95,7 @@ class MinimumOperationsToMakeASubsequence1713 {
             if(map.containsKey(n))
                 list.add(map.get(n));
         }
-        // 对list求最长递增子序列
+        // 对list求最长递增子序列 dp O(n2)
         // dp[i]表示以list[i]结尾的最长递增子序列的长度,list[i]一定被选中
         // 此时 dp[i] = max(dp[j]) + 1, 0<=j<i, list[j]<list[i]
         // res为 max(dp[i]), 0<=i<len
@@ -117,7 +117,52 @@ class MinimumOperationsToMakeASubsequence1713 {
         return len - max;
     }
 
+    public static int minOperations3(int[] target, int[] arr) {
+        int len = target.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < len; i++)
+            map.put(target[i], i);
+        // 将arr数组映射为索引表示的list
+        List<Integer> list = new ArrayList<>();
+        for(int n : arr) {
+            if(map.containsKey(n))
+                list.add(map.get(n));
+        }
+        // 对list求最长递增子序列 贪心+二分 O(n*lgn)
+        //
+        List<Integer> tail = new ArrayList<>();
+        tail.add(-1);
+        for(int n : list) {
+            int size = tail.size();
+            if(n > tail.get(size - 1))
+                tail.add(n);
+            else {
+                int left = 1;
+                int right = size - 1;
+                int midN = 0;
+                while(left <= right) {
+                    int mid = left + (right - left) / 2;
+                    midN = tail.get(mid);
+                    if(midN == n)
+                        break;
+                    if(midN < n)
+                        left = mid + 1;
+                    else if(midN > n)
+                        right = mid - 1;
+                }
+                if(midN == n) continue;
+                int index = tail.get(left) > n ? left : left + 1;
+                tail.set(index, n);
+            }
+        }
+        // 最长递增子序列 长度为tail.size()-1
+        return len - (tail.size() - 1);
+    }
 
-
+    public static void main(String[] args) {
+        int[] target = new int[]{17,18,14,13,6,9,1,3,2,20};
+        int[] arr = new int[]{18,15,14,6,6,13,15,20,2,6};
+        System.out.println(minOperations3(target, arr));
+    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
