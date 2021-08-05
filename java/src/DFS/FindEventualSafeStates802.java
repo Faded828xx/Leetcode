@@ -1,4 +1,4 @@
-package HashTable;
+package DFS;
 //We start at some node in a directed graph, and every turn, we walk along a dir
 //ected edge of the graph. If we reach a terminal node (that is, it has no outgoin
 //g directed edges), we stop. 
@@ -48,8 +48,9 @@ package HashTable;
 import java.util.*;
 
 //leetcode submit region begin(Prohibit modification and deletion)
+
+// DFS
 class FindEventualSafeStates802 {
-    // DFS
     public List<Integer> eventualSafeNodes(int[][] graph) {
         Set<Integer> res = new HashSet<>();
         int len = graph.length;
@@ -81,6 +82,45 @@ class FindEventualSafeStates802 {
         }
         visited[index] = -1;
         return false;
+    }
+
+    public List<Integer> eventualSafeNodes2(int[][] graph) {
+        int len = graph.length;
+
+        // 反向图入度
+        int[] degree = new int[len];
+
+        // 反向图 list[i]为反向后节点i指向的节点
+        List<List<Integer>> list = new ArrayList<>(len);
+        for(int i = 0; i < len; i++)
+            list.add(new ArrayList<>());
+        for(int i = 0; i < len; i++) {
+            degree[i] = graph[i].length;
+            for(int n : graph[i]) {
+                List<Integer> l = list.get(n);
+                l.add(i);
+            }
+        }
+
+        List<Integer> res = new ArrayList<>();
+
+        // 拓扑排序 将入度为零的节点入栈 并将该节点的出度减一
+        Deque<Integer> queue = new ArrayDeque<>();
+        for(int i = 0; i < len; i++) {
+            if(degree[i] == 0)
+                queue.add(i);
+        }
+        while(!queue.isEmpty()) {
+            int cur = queue.remove();
+            res.add(cur);
+            for(int n : list.get(cur)) {
+                degree[n]--;
+                if(degree[n] == 0)
+                    queue.add(n);
+            }
+        }
+        Collections.sort(res);
+        return res;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
