@@ -1,4 +1,5 @@
-package Array;//You are playing a game involving a circular array of non-zero integers nums. E
+package Array;
+//You are playing a game involving a circular array of non-zero integers nums. E
 //ach nums[i] denotes the number of indices forward/backward you must move if you 
 //are located at index i: 
 //
@@ -73,34 +74,36 @@ package Array;//You are playing a game involving a circular array of non-zero in
 // 👍 97 👎 0
 
 
+import java.util.Arrays;
+
 //leetcode submit region begin(Prohibit modification and deletion)
 class CircularArrayLoop457 {
-    // Wrong Answer
+    // Wrong Answer (dp)
     public boolean circularArrayLoop(int[] nums) {
         int len = nums.length;
         int[] dp = new int[len];
-        for(int i = len - 1; i >= 0; i--) {
+        for (int i = len - 1; i >= 0; i--) {
             int cur = nums[i];
             int next = cur + i;
-            if(cur <= 0 || (next < len && nums[next] <= 0) || cur >= len) continue;
-            if(next >= len) dp[i] = cur;    // 如果目标序列中两个元素都超边界会挂
+            if (cur <= 0 || (next < len && nums[next] <= 0) || cur >= len) continue;
+            if (next >= len) dp[i] = cur;    // 如果目标序列中两个元素都超边界会挂
             else dp[i] = cur + dp[next];
-            if(dp[i] % len == 0) return true;
+            if (dp[i] % len == 0) return true;
         }
-        for(int i = 0; i <= len - 1; i++) {
+        for (int i = 0; i <= len - 1; i++) {
             int cur = nums[i];
             int next = cur + i;
-            if(cur >= 0 || (next >= 0 && nums[next] >= 0) || cur <= -len) continue;
-            if(next <= -1) dp[i] = cur; // 与上同
+            if (cur >= 0 || (next >= 0 && nums[next] >= 0) || cur <= -len) continue;
+            if (next <= -1) dp[i] = cur; // 与上同
             else dp[i] = cur + dp[next];
-            if(dp[i] % len == 0) return true;
+            if (dp[i] % len == 0) return true;
         }
 
         return false;
     }
 
 
-    // 搬运工
+    // 搬运工 官方题解
     public boolean circularArrayLoop2(int[] nums) {
         int n = nums.length;
         for (int i = 0; i < n; i++) {
@@ -129,11 +132,48 @@ class CircularArrayLoop457 {
         }
         return false;
     }
-
     public int next(int[] nums, int cur) {
         int n = nums.length;
         return ((cur + nums[cur]) % n + n) % n; // 保证返回值在 [0,n) 中
     }
+
+
+    /*
+    * 找环的问题 且必定存在环 同向环则true 不同向则下一轮
+    visited保存当前轮数 若next其他轮标记过则退出当前轮 若next被当前轮标记过 说明当前轮有环
+    * */
+    public static boolean circularArrayLoop3(int[] nums) {
+        int len = nums.length;
+        int[] visited = new int[len];
+        Arrays.fill(visited, -1);
+        for (int i = 0; i < len; i++) {
+            if (check(nums, i, visited))
+                return true;
+        }
+        return false;
+    }
+    public static boolean check(int[] nums, int start, int[] visited) {
+        if (visited[start] != -1) return false;
+        int len = nums.length;
+        int cur = start;
+        while (true) {
+            int next = ((cur + nums[cur]) % len + len) % len;   // x % len 的范围在 -len~len
+            if (next == cur) return false;   // 一步回到原地
+            if (nums[cur] * nums[next] < 0) return false;    // 确保方向相同
+            if (visited[next] == start) break;
+            else if (visited[next] != -1) return false;
+            visited[cur] = start;
+            cur = next;
+        }
+        return true;
+    }
+
+    // test
+    public static void main(String[] args) {
+        int[] nums = new int[]{2, -1, 1, 2, 2};
+        System.out.println(circularArrayLoop3(nums));
+    }
+
 
 }
 //leetcode submit region end(Prohibit modification and deletion)
