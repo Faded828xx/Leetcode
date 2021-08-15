@@ -35,6 +35,8 @@ public class Contest254 {
         long l = 1L;
         long loop = (long) Math.pow(2, p - 1);
         long factor = (long) Math.pow(2, p) - 2;
+
+
         for(int i = 0; i < loop - 1; i++) {
             l = (l * factor) % 1000000007;
         }
@@ -43,11 +45,13 @@ public class Contest254 {
         return (int) l;
     }
     // 快速幂 34一直挂 不知道啥原因
+    // 快速幂不用递归写法后能过
     public static int minNonZeroProduct2(int p) {
-        // (2^p-2)^(2^(p-1))*(2^p-1)
+        // (2^p-2)^(2^(p-1)-1)*(2^p-1)
         long l;
-        long loop = (long) Math.pow(2, p - 1);
-        long factor = (long) Math.pow(2, p) - 2;
+        long loop = 1L << (p - 1);
+        long factor = (1L << p) - 2;
+
 //        l = (long) Math.pow(factor, loop - 1) % 1000000007;
         l = qpow(factor, loop - 1);
 //        System.out.println(l);
@@ -55,15 +59,26 @@ public class Contest254 {
         return (int) l;
     }
     public static long qpow(long a, long n) {
-        if(n == 0) return 1;
-        else if(n % 2 == 1) return qpow(a, n - 1) * a % 1000000007;
-        long tmp = qpow(a, n / 2) % 1000000007;
-        return (tmp * tmp) % 1000000007;
+//        if(n == 0) return 1;
+//        else if(n % 2 == 1) return qpow(a, n - 1) * a % 1000000007;
+//        long tmp = qpow(a, n / 2) % 1000000007;
+//        return (tmp * tmp) % 1000000007;
+        a %= 1000000007;
+        long res = 1L;
+        while (n > 0)
+        {
+            if ((n & 1) != 0 )
+                res = (res * a) % 1000000007;
+            a = (a * a) % 1000000007;
+            n >>= 1;
+        }
+        return res;
     }
 
 
     public static void main(String[] args) {
 //        System.out.println(minNonZeroProduct(34));
         System.out.println(minNonZeroProduct2(34));
+//        System.out.println((1L << 1) - 2);
     }
 }
