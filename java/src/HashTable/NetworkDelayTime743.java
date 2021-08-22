@@ -95,9 +95,47 @@ class NetworkDelayTime743 {
         return res;
     }
 
+    // Dijkstra
+    public static int networkDelayTime2(int[][] times, int n, int k) {
+        int[][] g = new int[n + 1][n + 1];
+        for(int[] t : g)
+            Arrays.fill(t, Integer.MAX_VALUE / 2);
+        for(int[] t : times)
+            g[t[0]][t[1]] = t[2];
+        boolean[] isOK = new boolean[n + 1];
+        int[] res = new int[n + 1];
+        Arrays.fill(res, Integer.MAX_VALUE / 2);
+        res[k] = 0;
+        for(int i = 1; i <= n; i++) {
+            int min = Integer.MAX_VALUE / 2;
+            int idx = -1;
+            for(int j = 1; j <= n; j++) {
+                if(!isOK[j] && res[j] < min) {
+                    min = res[j];
+                    idx = j;
+                }
+            }
+            if(idx == -1) return -1;
+            isOK[idx] = true;
+            for(int j = 1; j <= n; j++) {
+                if(isOK[j]) continue;
+                // 如果为MAX_VALUE 这里相加会溢出
+                res[j] = Math.min(res[j], res[idx] + g[idx][j]);
+            }
+        }
+//        for(int[] t : g)
+//            System.out.println(Arrays.toString(t));
+//        System.out.println(Arrays.toString(res));
+//        System.out.println(Arrays.toString(isOK));
+        int ans = 0;
+        for(int i = 1; i <= n; i++)
+            ans = Math.max(ans, res[i]);
+        return ans;
+    }
+
     public static void main(String[] args) {
-        int[][] times = new int[][]{{2, 3, 7}, {1, 2, 1}, {1, 3, 4}, {2, 1, 2}};
-        System.out.println(networkDelayTime(times, 3, 2));
+        int[][] times = new int[][]{{2,1,1}, {2,3,1}, {3,4,1}};
+        System.out.println(networkDelayTime2(times, 4, 2));
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
