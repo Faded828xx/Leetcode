@@ -1,4 +1,4 @@
-package Stack;
+package StackAndHeap;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
