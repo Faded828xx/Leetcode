@@ -81,16 +81,26 @@ class NonNegativeIntegersWithoutConsecutiveOnes600 {
             s[i][1] = s[i - 1][0];
             s[i][2] = s[i][0] + s[i][1];
         }
-        for(int i = 2; i <= 31; i++)
+        // s[i]:(0~2**i)中不包含连续1的个数
+        for(int i = 31; i >= 2; i--)
             s[i][2] = s[i - 1][2] + 1;
         int res = 0;
         int pre = 0;
         for(int i = 31; i >= 0; i--) {
             int cur = (n >> i) & 1; // 从低到高第i位数
-            int p = pre;
-            pre = cur;
-            if(cur == 0 || p == 1) continue;
-            res += s[i][2] - 1;
+            if(cur == 0) {
+                pre = 0;
+                continue;
+            }
+            if(pre != 1) {
+                res += s[i][2] - 1;
+                pre = 1;
+            } else if(pre == 1) {   // 连续1
+                res += s[i][2] - 1;
+                return res;
+            }
+
+
         }
         return res + 1;
 
