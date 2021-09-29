@@ -104,8 +104,8 @@ public class Contest260 {
 
     public static void main(String[] args) {
         Contest260 contest260 = new Contest260();
-        char[][] board = new char[][]{{' ','#','a'}, {' ','#','c'}, {' ','#','a'}};
-        String word = "ac";
+        char[][] board = new char[][]{{' ',' ','c'}, {' ','#',' '}, {'a',' ',' '}};
+        String word = "abc";
         System.out.println(contest260.placeWordInCrossword(board, word));
     }
 
