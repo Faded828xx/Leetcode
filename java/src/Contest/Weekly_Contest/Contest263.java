@@ -1,6 +1,8 @@
 package Contest.Weekly_Contest;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author faded828x
@@ -54,7 +56,9 @@ public class Contest263 {
         if(time <= change) {
             tt = change;
         } else {
-            tt = time + change - (time % change);
+            if(time % change == 0) tt = time;
+            else
+                tt = time + change - (time % change);
         }
         diff = tt - time;
         // dijkstra
@@ -63,73 +67,27 @@ public class Contest263 {
             gg[edge[0]][edge[1]] = true;
             gg[edge[1]][edge[0]] = true;
         }
+        s.add(1);
         int min2 = dfs(gg, 1, n);
+        // System.out.println(min2);
         if(flag) min2 += 2;
+        // System.out.println(min2);
+        // System.out.println(tt);
+        // System.out.println(diff);
         return min2 * tt - diff;
-//      不需要dijkstra
-//        int[] res = new int[n + 1];
-//        boolean[] isOK = new boolean[n + 1];
-//        Arrays.fill(res, Integer.MAX_VALUE);
-//        res[1] = 0;
-//
-//        int secondMin = Integer.MAX_VALUE;
-//
-//        for(int i = 0; i < n; i++) {
-//
-//            int min = Integer.MAX_VALUE;
-//            int idx = -1;
-//            for(int j = 1; j <= n; j++) {
-//                if(!isOK[j] && res[j] < min) {
-//                    min = res[j];
-//                    idx = j;
-//                }
-//            }
-//            if(idx == -1) break;
-//
-//            isOK[idx] = true;
-//
-//            for(int j = 1; j <= n; j++) {
-//                if(isOK[j] || !gg[idx][j]) continue;
-//                if(j == n) {
-//                    if(res[j] == Integer.MAX_VALUE)
-//                        res[j] = res[idx] + 1;
-//                    else if(secondMin == Integer.MAX_VALUE) {
-//                        if(res[j] > res[idx] + 1) {
-//                            secondMin = res[j];
-//                            res[j] = res[idx] + 1;
-//                        } else if(res[j] < res[idx] + 1)
-//                            secondMin = res[idx] + 1;
-//                    } else {
-//                        if(res[idx] + 1 == res[j] || res[idx] + 1 == secondMin) continue;
-//                        int a = res[j];
-//                        int b = secondMin;
-//                        int c = res[idx] + 1;
-//                        if(c > b) continue;
-//                        if(c > a) secondMin = c;
-//                        else if(c < a) {
-//                            secondMin = a;
-//                            res[j] = c;
-//                        }
-//                    }
-//                } else {
-//                    res[j] = Math.min(res[j], res[idx] + 1);
-//                }
-//            }
-//
-//        }
-//        System.out.println(res[n]);
-//        System.out.println(secondMin);
-//        return secondMin == Integer.MAX_VALUE ? (res[n] + 2) * tt - diff : secondMin * tt - diff;
     }
     // 双向边 这里递归爆栈了
+    Set<Integer> s = new HashSet<>();
     public int dfs(boolean[][] gg, int from, int n) {
         if(from == n) return 0;
         int min = Integer.MAX_VALUE;
         int min2 = Integer.MAX_VALUE;
         for(int i = 1; i <= n; i++) {
-            if(i != from && gg[from][i]) {
+            if(i != from && gg[from][i] && !s.contains(i)) {
+                s.add(i);
                 int dis = dfs(gg, i, n);
-                if(dis == min || dis == min2 || dis > min2) continue;
+                s.remove(i);
+                if(dis < 0 || dis == min || dis == min2 || dis > min2) continue;
                 else if(dis > min) min2 = dis;
                 else if(dis < min) {
                     min2 = min;
@@ -138,6 +96,8 @@ public class Contest263 {
             }
         }
         if(from == 1) {
+//            System.out.println(min);
+//            System.out.println(min2);
             if(min2 == Integer.MAX_VALUE) {
                 flag = true;
                 return min + 1;
