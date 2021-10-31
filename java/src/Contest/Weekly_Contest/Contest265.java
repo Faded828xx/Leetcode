@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class Contest265 {
 
-    // 超内存喽
+    // bfs 手误挂内存了 然后一直写T4 这题就没过 气死喽
     public static int minimumOperations(int[] nums, int start, int goal) {
         Deque<Integer> queue = new ArrayDeque<>();
         Set<Integer> s = new HashSet<>();
@@ -27,7 +27,9 @@ public class Contest265 {
                         else if(j == 1) nn = cur - n;
                         else nn = cur ^ n;
                         if(nn == goal) return cnt;
-                        if(nn < 0 || n > 1000) continue;
+                        // 这里手误 挂内存了
+//                        if(nn < 0 || n > 1000) continue;
+                        if(nn < 0 || nn > 1000) continue;
                         if(!s.contains(nn)) {
                             s.add(nn);
                             queue.add(nn);
