@@ -7,7 +7,7 @@ import java.util.Map;
  * @author faded828x
  * @date 2021/11/27
  */
-public class Contes66 {
+public class Contest66 {
 
     // AC
     public int countWords(String[] words1, String[] words2) {
