@@ -3,7 +3,7 @@ package Contest.Weekly_Contest;
 import LinkedList.ListNode;
 import Tree.TreeNode;
 
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author faded828x
@@ -139,5 +139,61 @@ public class Contest270 {
             else if(way == 2) sb.insert(0, 'R');
         }
         return sb.toString();
+    }
+
+    // 挂了
+    public int[][] validArrangement(int[][] pairs) {
+        int len = pairs.length;
+        // (key,value) start元素为key的pair的索引数组 -> value
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        // (key,value) 所有元素中key的出现频率 -> value
+        Map<Integer, Integer> map2 = new HashMap<>();
+        for(int i = 0; i < len; i++) {
+            int[] pair = pairs[i];
+            List<Integer> l = map.getOrDefault(pair[0], new LinkedList<>());
+            l.add(i);
+            map.put(pair[0], l);
+            map2.put(pair[0], map2.getOrDefault(pair[0], 0) + 1);
+            map2.put(pair[1], map2.getOrDefault(pair[1], 0) + 1);
+        }
+        // 首元素
+        List<Integer> l = new ArrayList<>(2);
+        for(int k : map2.keySet()) {
+            if(((map2.get(k)) & 1) == 0) continue;
+            l.add(k);
+        }
+        int[][] res = new int[len][2];
+        if(l.size() > 0) {
+            int n1 = l.get(0);
+            int n2 = l.get(1);
+            if(map.getOrDefault(n2, new ArrayList<>()).size() > map.getOrDefault(n1, new ArrayList<>()).size()) {
+                res[0][0] = n2;
+                res[len - 1][1] = n1;
+            }
+            else {
+                res[0][0] = n1;
+                res[len - 1][1] = n2;
+            }
+        } else {
+            res[0][0] = pairs[0][0];
+            res[len - 1][1] = pairs[0][0];
+        }
+
+        int idx = 0;
+        while(idx < len - 1) {
+            int s = res[idx][0];
+            List<Integer> l2 = map.get(s);
+            int i, next = 0;
+            for(i = 0; i < l2.size(); i++) {
+                next = pairs[l2.get(i)][1];
+                if(map.get(next).size() > 0) break;
+            }
+            res[idx][1] = next;
+            res[idx + 1][0] = next;
+            l2.remove(i);
+            map.put(s, l2);
+            idx++;
+        }
+        return res;
     }
 }
