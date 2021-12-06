@@ -44,47 +44,49 @@ public class Contest259 {
         return res;
     }
 
-}
+    // AC
+    class DetectSquares {
+
+        int[][] grid;
 
 
-// AC
-class DetectSquares {
-
-    int[][] grid;
-
-
-    public DetectSquares() {
-        grid = new int[1001][1001];
-    }
-
-    public void add(int[] point) {
-        grid[point[0]][point[1]]++;
-    }
-
-    public int count(int[] point) {
-        int x = point[0];
-        int y = point[1];
-        int res = 0;
-        for(int i = 0; i <= 1000; i++) {
-            if(i == y || grid[x][i] == 0) continue;
-            int n1 = grid[x][i];
-            int edge = Math.abs(y - i);
-            int n2 = 0;
-            int n3 = 0;
-            if(x + edge <= 1000) {
-                n2 = grid[x + edge][i];
-                n3 = grid[x + edge][y];
-                res += n1 * n2 * n3;
-            }
-            if(x - edge >= 0) {
-                n2 = grid[x - edge][i];
-                n3 = grid[x - edge][y];
-                res += n1 * n2 * n3;
-            }
+        public DetectSquares() {
+            grid = new int[1001][1001];
         }
-        return res;
+
+        public void add(int[] point) {
+            grid[point[0]][point[1]]++;
+        }
+
+        public int count(int[] point) {
+            int x = point[0];
+            int y = point[1];
+            int res = 0;
+            for(int i = 0; i <= 1000; i++) {
+                if(i == y || grid[x][i] == 0) continue;
+                int n1 = grid[x][i];
+                int edge = Math.abs(y - i);
+                int n2 = 0;
+                int n3 = 0;
+                if(x + edge <= 1000) {
+                    n2 = grid[x + edge][i];
+                    n3 = grid[x + edge][y];
+                    res += n1 * n2 * n3;
+                }
+                if(x - edge >= 0) {
+                    n2 = grid[x - edge][i];
+                    n3 = grid[x - edge][y];
+                    res += n1 * n2 * n3;
+                }
+            }
+            return res;
+        }
     }
+
 }
+
+
+
 
 /**
  * Your DetectSquares object will be instantiated and called as such:
