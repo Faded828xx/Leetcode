@@ -68,16 +68,16 @@ class LoudAndRich851 {
         int n = quiet.length;
         map = new HashMap<>(n);
         visited = new int[n][2];
-        for(int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
             visited[i][1] = -1;
         this.quiet = quiet;
-        for(int[] r : richer) {
+        for (int[] r : richer) {
             Set<Integer> s = map.getOrDefault(r[1], new HashSet<>());
             s.add(r[0]);
             map.put(r[1], s);
         }
         int[] res = new int[n];
-        for(int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
             res[i] = dfs(i)[0];
         return res;
     }
@@ -85,20 +85,20 @@ class LoudAndRich851 {
     int[] dfs(int person) {
         int min = quiet[person];
         int per = person;
-        if(!map.containsKey(person)) {
+        if (!map.containsKey(person)) {
             visited[person][1] = min;
             visited[person][0] = person;
             return new int[]{per, min};
         }
-        for(int p : map.get(person)) {
-            if(visited[p][1] != -1) {
-                if(visited[p][1] < min) {
+        for (int p : map.get(person)) {
+            if (visited[p][1] != -1) {
+                if (visited[p][1] < min) {
                     min = visited[p][1];
                     per = visited[p][0];
                 }
             } else {
                 int[] nn = dfs(p);
-                if(nn[1] < min) {
+                if (nn[1] < min) {
                     min = nn[1];
                     per = nn[0];
                 }
@@ -109,11 +109,105 @@ class LoudAndRich851 {
         return new int[]{per, min};
     }
 
+    // 邻接矩阵拓扑排序
+    public int[] loudAndRich2(int[][] richer, int[] quiet) {
+        int n = quiet.length;   // 节点个数
+        boolean[][] graph = new boolean[n][n];  // 邻接矩阵
+        int[] nums = new int[n];    // 每个节点的入度
+        boolean[] visited = new boolean[n];
+        for (int[] r : richer) {
+            graph[r[0]][r[1]] = true;
+            nums[r[1]]++;
+        }
+        int[] res = new int[n];
+        for (int i = 0; i < n; i++)
+            res[i] = i;
+        int start = findStart(nums, visited);
+        Deque<Integer> queue = new ArrayDeque<>();
+        queue.offer(start);
+        while (!queue.isEmpty()) {
+            int from = queue.poll();
+            visited[from] = true;
+            int q1 = quiet[res[from]];
+            for (int i = 0; i < n; i++) {
+                if (!graph[from][i]) continue;
+                int q2 = quiet[res[i]];
+                if (q1 < q2)
+                    res[i] = res[from];
+                nums[i]--;
+                if (nums[i] == 0)
+                    queue.offer(i);
+            }
+            // 这里可以一开始把所有的度为0的节点加入队列 不用等到队列为空再加
+            if (queue.isEmpty()) {
+                int next = findStart(nums, visited);
+                if (next != -1)
+                    queue.offer(next);
+            }
+        }
+
+        return res;
+    }
+    // 找到入度为0的节点
+    int findStart(int[] nums, boolean[] visited) {
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0 && !visited[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    // 邻接表拓扑排序
+    public int[] loudAndRich3(int[][] richer, int[] quiet) {
+        // 头插法 每个节点存储一个边的编号 并且为每条边存储同一节点下的相邻边编号 因此每个节点的出边即 对存储的编号进行深搜
+        int n = quiet.length;   // 节点数
+        int m = richer.length;  // 边数
+        // 头插法 初始状态每个节点指向空 链表中存储的是边的编号
+        int[] a = new int[n];
+        Arrays.fill(a, -1);
+        // 每个节点的入度
+        int[] w = new int[n];
+        // 每条边用头插法进入链表前的链表首节点中的边编号
+        int[] b = new int[m];
+        for(int i = 0; i < m; i++) {
+            int from = richer[i][0];
+            int to = richer[i][1];
+            // 先记录链表首节点的编号
+            b[i] = a[from];
+            a[from] = i;
+            w[to]++;
+        }
+        Deque<Integer> queue = new ArrayDeque<>();
+        // 入度为0的节点添加到队列
+        for(int i = 0; i < n; i++) {
+            if(w[i] == 0)
+                queue.offer(i);
+        }
+        int[] res = new int[n];
+        for(int i = 0; i < n; i++)
+            res[i] = i;
+        while(!queue.isEmpty()) {
+            int f = queue.poll();
+            int cur = a[f]; // 边的编号
+            while(cur != -1) {
+                int t = richer[cur][1];
+                w[t]--;
+                if(w[t] == 0) queue.offer(t);
+                if(quiet[res[t]] > quiet[res[f]])
+                    res[t] = res[f];
+                cur = b[cur];   // 同节点的下一条边
+            }
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         LoudAndRich851 loudAndRich851 = new LoudAndRich851();
-        int[][] richer = new int[][]{{1,0},{2,1},{3,1},{3,7},{4,3},{5,3},{6,3}};
-        int[] quiet = new int[]{3,2,5,4,6,1,7,0};
-        System.out.println(Arrays.toString(loudAndRich851.loudAndRich(richer, quiet)));
+        int[][] richer = new int[][]{{1, 0}, {2, 1}, {3, 1}, {3, 7}, {4, 3}, {5, 3}, {6, 3}};
+        int[] quiet = new int[]{3, 2, 5, 4, 6, 1, 7, 0};
+        System.out.println(Arrays.toString(loudAndRich851.loudAndRich3(richer, quiet)));
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
