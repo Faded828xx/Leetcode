@@ -31,10 +31,7 @@ package String;//The DNA sequence is composed of a series of nucleotides abbrevi
 // 👍 212 👎 0
 
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class RepeatedDNASequences187 {
@@ -80,9 +77,31 @@ class RepeatedDNASequences187 {
         return n < (1 << 27) ? (n << 3) + next : ((n & ((1 << 27) - 1)) << 3) + next;
     }
 
+    public List<String> findRepeatedDnaSequences2(String s) {
+        // 大素数
+        int P = 131313;
+        int len = s.length();
+        int[] hash = new int[len + 1];  // hash
+        int[] p = new int[len + 1]; // 底数
+        p[0] = 1;
+        for(int i = 1; i <= len; i++) {
+            hash[i] = hash[i - 1] * P + s.charAt(i - 1);
+            p[i] = p[i - 1] * P;
+        }
+        List<String> res = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();    // hash -> freq
+        for(int i = 10; i <= len; i++) {
+            int hash2 = hash[i] - hash[i - 10] * p[10];
+            int freq = map.getOrDefault(hash2, 0);
+            if(freq == 1) res.add(s.substring(i - 10, i));
+            map.put(hash2, freq + 1);
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         RepeatedDNASequences187 repeatedDNASequences187 = new RepeatedDNASequences187();
-        System.out.println(repeatedDNASequences187.findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
+        System.out.println(repeatedDNASequences187.findRepeatedDnaSequences2("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
