@@ -1,4 +1,5 @@
-package Math;//In an infinite binary tree where every node has two children, the nodes are la
+package Math;
+//In an infinite binary tree where every node has two children, the nodes are la
 //belled in row order. 
 //
 // In the odd numbered rows (ie., the first, third, fifth,...), the labelling is
